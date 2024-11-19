@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import { Product } from "../models/Product.js";
 import { Like } from "../models/Like.js";
-import { ImageUpload } from "../middleware/ImageUpload.js";
-import authMiddleware from "../middleware/auth-middleware.js";
+import { ImageUpload }  from "../middleware/ImageUpload.js";
+// import authMiddleware from "../middleware/auth-middleware.js";
 
 const router = express.Router();
 
@@ -82,14 +82,24 @@ router.get("/search-category/:category", async (req, res) => {
   }
 });
 
-router.post("/create",  ImageUpload.array('pictures', 5),async (req, res) => {
+router.post("/create",ImageUpload.array('pictures', 5),async (req, res) => {
   try {
 
-    console.log(req.files)
     const pictures = req.files.map((file) => file.path)
-    const { name, description, price, category } = req.body;
+    
+    
+    
+    const {
+      name,
+      description,
+      price,
+      category,
+    } = req.body
+    
+    console.log(req.files)
+console.log(name, description, price, category)
 
-    if (!name || !description || !price || !pictures.length || !category) {
+    if (!name || !description || !price || !pictures || !category) {
       throw new Error("At least one of the required fields is empty");
     }
 

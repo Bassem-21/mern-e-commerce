@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import path from 'path';
+
 
 import dotenv from 'dotenv';
 import UserController from './controllers/UserController.js';
@@ -16,11 +16,6 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 const app = express();
-
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
-
-app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use(express.json());
 
