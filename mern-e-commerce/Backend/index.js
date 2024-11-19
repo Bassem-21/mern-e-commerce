@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-
+import path from 'path'
 
 import dotenv from 'dotenv';
 import UserController from './controllers/UserController.js';
@@ -15,6 +15,8 @@ import ViewProductController from './controllers/ViewProductController.js';
 dotenv.config();
 const PORT = process.env.PORT;
 
+
+
 const app = express();
 
 app.use(express.json());
@@ -26,6 +28,10 @@ const clientOptions = {
         deprecationErrors: true
     }
 };
+
+const imagesPath = path.join(process.cwd(), 'images');
+
+app.use('/images', express.static(imagesPath));
 
 const prefix = '/api';
 const version = '/v1'

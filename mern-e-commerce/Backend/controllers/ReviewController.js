@@ -3,11 +3,11 @@ import { Review } from '../models/Review.js';
 
 const router = express.Router();
 
-router.post('/find-Review-id', async (req, res) => {
-    const text = req.body;
-
+router.post('/find-review-id', async (req, res) => {
+    const comment = req.body;
+    
     try{
-        const review = await Review.findOne( text );
+        const review = await Review.findOne( comment );
         if(review){
             res.status(200).json({
                 errors: null,
@@ -29,13 +29,14 @@ router.post('/find-Review-id', async (req, res) => {
 })
 
 router.post('/create', async (req, res) => {
-    const { text,user,product } = req.body;
+    const { user,rating,product,comment } = req.body;
 
     try {
         const review = new Review({
-          text,
           user,
-          product
+          product,
+          comment,
+          rating
         });
 
         await review.save();
@@ -55,7 +56,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.put('/update', async (req, res) => {
-    const {id , text, product, user} = req.body;
+    const {id , rating, product, user,comment} = req.body;
 
     if(!id){
         return res.status(400).json({
@@ -64,7 +65,7 @@ router.put('/update', async (req, res) => {
             data: null
         });
     }
-    if(!id && !text && !product && !user){
+    if(!id && !comment && !product && !user && !rating){
         return res.status(400).json({
             errors: ['All fields are required'],
             message: 'Failed to update Review',
@@ -74,7 +75,7 @@ router.put('/update', async (req, res) => {
     try {
         const review = await Review.findByIdAndUpdate(
         id,
-        {text, product, user},
+        {comment,rating, product, user},
         { new: true });
 
         res.status(200).json({
