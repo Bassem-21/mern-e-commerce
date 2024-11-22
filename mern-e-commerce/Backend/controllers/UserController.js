@@ -83,7 +83,7 @@ router.post("/create", async (req, res) => {
 });
 
 router.put("/update", authMiddleware, async (req, res) => {
-  const { id, name, password } = req.body;
+  const { name, password } = req.body;
   let dataRes = [];
   try {
     if (!name || !password) {

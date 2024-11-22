@@ -7,6 +7,27 @@ import { ImageUpload }  from "../middleware/ImageUpload.js";
 
 const router = express.Router();
 
+// get all products from database 
+
+router.get("/all-products", async (req, res) => {
+  try {
+    const products = await Product.find()
+  
+    res.status(200).json({
+      errors: null,
+      message: "Products fetched!",
+      data: products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      errors: [error.message],
+      message: "Something went wrong!",
+      data: null,
+    });
+  }
+});
+
 router.get("/find-product/:id", async (req, res) => {
   const productId = req.params.id;
   const page = parseInt(req.query.page, 10) || 1;
@@ -99,7 +120,7 @@ router.post("/create",ImageUpload.array('pictures', 5),async (req, res) => {
     console.log(req.files)
 console.log(name, description, price, category)
 
-    if (!name || !description || !price || !pictures || !category) {
+    if (!name || !description || !price || !pictures.length || !category) {
       throw new Error("At least one of the required fields is empty");
     }
 
