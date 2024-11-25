@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
 
 const SignUp = ({ onSignUp }) => {
   const [name, setName] = useState('');
@@ -8,6 +9,8 @@ const SignUp = ({ onSignUp }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); // State for confirm password visibility
   const navigate = useNavigate();
 
   const handleSignUp = async () => {
@@ -37,9 +40,10 @@ const SignUp = ({ onSignUp }) => {
       // Check for a successful response
       if (response.ok) {
         const data = await response.json();
-
         // Call the onSignUp callback to handle successful sign-up
         onSignUp(data); // Pass the response data (e.g., token or user data) if necessary
+        localStorage.setItem('authToken', data.data);
+        localStorage.setItem("isLoggedIn", "true");
         navigate('/'); // Navigate to the home page after sign-up
       } else {
         const errorData = await response.json();
@@ -53,56 +57,88 @@ const SignUp = ({ onSignUp }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Sign Up</h2>
+    <>
+      <Header />
+      <div className="flex justify-center items-center min-h-screen bg-primary">
+        <div className="bg-secondary p-8 rounded-lg shadow-lg w-96">
+          <h2 className="text-2xl font-bold text-center text-text mb-6">Sign Up</h2>
 
-       
-
-        <input
-          type="text"
-          placeholder="Username"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={handleSignUp}
-          disabled={loading}
-          className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {loading ? 'Signing up...' : 'Sign Up'}
-        </button>
-
-        <div className="mt-2 text-center">
-          <span className="text-sm">Already have an account? </span>
-          <a href="/login" className="text-sm text-blue-500 hover:underline" onClick={() => navigate('/login')}>Log in</a>
+          <input
+            type="text"
+            placeholder="Username"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+          />
           
+          {/* Password field with toggle visibility */}
+          <div className="relative mb-4">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+            />
+            <span
+              className="absolute right-3 top-3 cursor-pointer"
+              onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+            >
+              {passwordVisible ? (
+                <i className="fa fa-eye text-gray-500"></i>
+              ) : (
+                <i className="fa fa-eye-slash text-gray-500"></i>
+              )}
+            </span>
+          </div>
+
+          {/* Confirm Password field with toggle visibility */}
+          <div className="relative mb-6">
+            <input
+              type={confirmPasswordVisible ? 'text' : 'password'}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+            />
+            <span
+              className="absolute right-3 top-3 cursor-pointer"
+              onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)} // Toggle confirm password visibility
+            >
+              {confirmPasswordVisible ? (
+                <i className="fa fa-eye text-gray-500"></i>
+              ) : (
+                <i className="fa fa-eye-slash text-gray-500"></i>
+              )}
+            </span>
+          </div>
+
+          <button
+            onClick={handleSignUp}
+            disabled={loading}
+            className="w-full p-3 bg-text text-white rounded-md hover:bg-[#ff4d2d] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {loading ? 'Signing up...' : 'Sign Up'}
+          </button>
+
+          <div className="mt-2 text-center">
+            <span className="text-m text-white">Already have an account? </span>
+            <a href="/login" className="text-m text-text font-bold hover:underline" onClick={() => navigate('/login')}>
+              Log in
+            </a>
+          </div>
+          
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         </div>
-        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+:root {
+    --primary-color: #091057; /* Blue */
+    --secondary-color: #024CAA; /* Tomato */
+    --button-color: #EC8305; /* Dark gray */
+    --text-color: #ff6347; /* Light gray */
+    /* --secondary-color: #ff6347; Tomato */
+  }

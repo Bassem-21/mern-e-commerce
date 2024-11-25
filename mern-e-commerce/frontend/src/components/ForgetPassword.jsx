@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import localhost from './LocalHost';
+import Header from './Header';
 // import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
@@ -51,51 +52,54 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Reset Password</h2>
+   <>
+   <Header/>
+   <div className="flex justify-center items-center min-h-screen bg-primary">
+      <div className="bg-secondary p-8 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold text-center text-text mb-6">Reset Password</h2>
 
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        {success && <p className="text-green-500 text-center mb-4">{success}</p>}
 
         <input
           type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+          />
 
         <input
           type="password"
           placeholder="New Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+          />
 
         <input
           type="password"
           placeholder="Confirm New Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          className="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-text"
+          />
 
         <button
           onClick={handleResetPassword}
           disabled={loading}
-          className="w-full p-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
+          className="w-full p-3 bg-text text-white rounded-md hover:bg-[#ff4d2d] focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
           {loading ? 'Resetting...' : 'Reset Password'}
         </button>
 
         <div className="mt-4 text-center">
-          <span className="text-sm">Remembered your password? </span>
-          <a href="/login" className="text-sm text-blue-500 hover:underline">Login</a>
+          <span className="text-m text-white">Remembered your password? </span>
+          <a href="/login" className="text-m text-text font-bold hover:underline">Login</a>
         </div>
       </div>
+    {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+    {success && <p className="text-green-500 text-center mb-4">{success}</p>}
     </div>
+   </>
   );
 };
 

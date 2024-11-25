@@ -1,5 +1,6 @@
 import express from 'express';
 import { Cart } from '../models/Cart.js';
+import authMiddleware from '../middleware/auth-middleware.js';
 
 const router = express.Router();
 
@@ -53,44 +54,44 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.put('/update', async (req, res) => {
-    const {id, products, quantity, user } = req.body;
-
-    if(!id){
-        return res.status(400).json({
-            errors: ['cart ID is required'],
-            message: 'Failed to update cart',
-            data: null
-        });
-    }
-    if(!quantity && !user && !products){
-        return res.status(400).json({
-            errors: ['All fields are required'],
-            message: 'Failed to update cart',
-            data: null
-        });
-    }
+router.put('/update', authMiddleware, async (req, res) => {
     try {
-        const cart = await Cart.findByIdAndUpdate(
-        id,
-        { products, quantity, user},
-        { new: true });
+        const userId = req.user._id
+        const newCart = {
+            user: userId,
+            products: []
+        }
+
+        Object.entries(req.body.cart).forEach((cartItem) => {
+            newCart.products.push( {
+                product: cartItem[0],
+                quantity: cartItem[1]
+            })
+
+        })
+
+        // update cart if exists,
+        // otherwise, create it with the passed contents
+        const cart = await Cart.findOneAndUpdate(
+            { user: userId },
+            newCart,
+            { upsert: true, new: true }
+        )
 
         res.status(200).json({
             errors: null,
-            message: 'cart was updated successfully!',
+            message: "Product updated!",
             data: cart
-        });
-    }
-    catch(err){
-        res.status(404).json({
-            errors: [err.message],
-            message: 'cart not found',
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            errors: [error.message],
+            message: "Something went wrong!",
             data: null
         })
     }
 })
-
 router.delete('/delete', async (req,res) => {
     const { id } = req.body;
 

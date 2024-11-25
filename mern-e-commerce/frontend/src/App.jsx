@@ -9,7 +9,7 @@ import ForgotPassword from './components/ForgetPassword';
 import Cart from './components/Cart';
 import Order from './components/Order';
 import Likes from './components/Likes';
-
+import { CartProvider } from "./components/CartContext";
 function App() {
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,6 +21,7 @@ function App() {
     setIsLoggedIn(true); // Set login state to false when user
   }
   return (
+    <CartProvider>
     <Router>
       <Routes>
         {/* Route to Sign Up page */}
@@ -43,12 +44,10 @@ function App() {
         <Route path="/likes" element={<Likes />} />
         
         {/* Redirects to ProductList if the user is signed in */}
-        <Route
-          path="/product-upload"
-          element={isSignedUp || isLoggedIn? <ProductUpload /> : <Navigate to="/sign-up" />}
-        />
+        <Route path="/product-upload" element= {<ProductUpload /> }/>
       </Routes>
     </Router>
+    </CartProvider>
   );
 }
 

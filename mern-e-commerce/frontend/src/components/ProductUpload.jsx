@@ -7,22 +7,22 @@ const ProductUpload = () => {
   const [productDescription, setProductDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [pictures, setPictures] = useState([]); // Changed 'images' to 'pictures'
-  const [currentPictureIndex, setCurrentPictureIndex] = useState(0); // Changed 'image' to 'picture'
-  const [loading, setLoading] = useState(false); // For loading state
-  const [error, setError] = useState(null); // For error handling
-  const [success, setSuccess] = useState(false); // For success message
+  const [pictures, setPictures] = useState([]);
+  const [currentPictureIndex, setCurrentPictureIndex] = useState(0); 
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null); 
+  const [success, setSuccess] = useState(false); 
 
-  const handlePictureChange = (e) => { // Changed 'image' to 'picture'
-    const newPictures = Array.from(e.target.files); // Changed 'images' to 'pictures'
-    setPictures((prevPictures) => [...prevPictures, ...newPictures]); // Changed 'images' to 'pictures'
+  const handlePictureChange = (e) => { 
+    const newPictures = Array.from(e.target.files); 
+    setPictures((prevPictures) => [...prevPictures, ...newPictures]); 
   };
 
-  const handleRemovePicture = (index) => { // Changed 'image' to 'picture'
-    const newPictures = pictures.filter((_, i) => i !== index); // Changed 'images' to 'pictures'
-    setPictures(newPictures); // Changed 'images' to 'pictures'
+  const handleRemovePicture = (index) => { 
+    const newPictures = pictures.filter((_, i) => i !== index); 
+    setPictures(newPictures); 
     if (currentPictureIndex >= newPictures.length) {
-      setCurrentPictureIndex(newPictures.length - 1); // Adjust the index if the last picture is removed
+      setCurrentPictureIndex(newPictures.length - 1); 
     }
   };
 
@@ -37,8 +37,8 @@ const ProductUpload = () => {
     formData.append("category", category);
 
     // Append pictures to FormData
-    pictures.forEach((picture) => { // Changed 'images' to 'pictures'
-      formData.append("pictures", picture); // Changed 'images' to 'pictures'
+    pictures.forEach((picture) => { 
+      formData.append("pictures", picture); 
     });
 
     try {
@@ -64,7 +64,7 @@ const ProductUpload = () => {
       setProductDescription("");
       setPrice("");
       setCategory("");
-      setPictures([]); // Changed 'images' to 'pictures'
+      setPictures([]); 
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -73,13 +73,13 @@ const ProductUpload = () => {
 
   const nextPicture = () => { // Changed 'image' to 'picture'
     setCurrentPictureIndex((prevIndex) =>
-      prevIndex === pictures.length - 1 ? 0 : prevIndex + 1 // Changed 'images' to 'pictures'
+      prevIndex === pictures.length - 1 ? 0 : prevIndex + 1 
     );
   };
 
   const prevPicture = () => { // Changed 'image' to 'picture'
     setCurrentPictureIndex((prevIndex) =>
-      prevIndex === 0 ? pictures.length - 1 : prevIndex - 1 // Changed 'images' to 'pictures'
+      prevIndex === 0 ? pictures.length - 1 : prevIndex - 1 
     );
   };
 
@@ -88,16 +88,16 @@ const ProductUpload = () => {
       <div className="fixed top-0 left-0 w-full bg-white z-50 shadow-md">
         <Header />
       </div>
-      <div className="flex space-x-10 p-[50px] pb-[105px] mt-[53px] bg-[#15100C]">
+      <div className="flex space-x-10 p-[50px] pb-[105px] mt-[53px] bg-primary">
         {/* Left: Product Form */}
-        <div className="w-2/5 space-y-6 bg-slate-700 p-4 rounded">
-          <h2 className="text-2xl font-semibold text-center text-[#FCAB2E]">
+        <div className="w-2/5 space-y-6 bg-secondary p-4 rounded">
+          <h2 className="text-2xl font-semibold text-center text-text">
             Add New Product
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Product Name */}
             <div>
-              <label className="block text-sm font-medium text-[#FCAB2E] mb-2">Product Name</label>
+              <label className="block text-sm font-medium text-text mb-2">Product Name</label>
               <input
                 type="text"
                 value={productName}
@@ -109,7 +109,7 @@ const ProductUpload = () => {
 
             {/* Product Description */}
             <div>
-              <label className="block text-sm font-medium text-[#FCAB2E] mb-2">
+              <label className="block text-sm font-medium text-text mb-2">
                 Product Description
               </label>
               <textarea
@@ -123,7 +123,7 @@ const ProductUpload = () => {
 
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium text-[#FCAB2E] mb-2">Price ($)</label>
+              <label className="block text-sm font-medium text-text mb-2">Price ($)</label>
               <input
                 type="number"
                 value={price}
@@ -137,7 +137,7 @@ const ProductUpload = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-[#FCAB2E] mb-2">Category</label>
+              <label className="block text-sm font-medium text-text mb-2">Category</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -153,7 +153,7 @@ const ProductUpload = () => {
             </div>
 
             {/* Picture Upload */}
-            <div className="w-full p-2 border border-gray-300 rounded-md text-[#FCAB2E]">
+            <div className="w-full p-2 border border-gray-300 rounded-md text-text">
               <label
                 htmlFor="productPictures"
                 className="block text-sm font-medium cursor-pointer"
@@ -173,7 +173,7 @@ const ProductUpload = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-2 bg-[#ff9c08] text-white rounded-md hover:text-black"
+              className="w-full py-2 bg-text text-white rounded-md hover:bg-[#ff4d2d]"
               disabled={loading} // Disable button while loading
             >
               {loading ? "Uploading..." : "Submit Product"}
@@ -186,8 +186,8 @@ const ProductUpload = () => {
         </div>
 
         {/* Right: Product Preview */}
-        <div className="w-1/4 p-4 border border-gray-300 rounded-lg bg-slate-700">
-          <h2 className="text-xl font-semibold text-center text-[#FCAB2E] border-b">Product Preview</h2>
+        <div className="w-1/4 p-4 border border-gray-300 rounded-lg bg-secondary">
+          <h2 className="text-xl font-semibold text-center text-text border-b">Product Preview</h2>
 
           {/* Picture Carousel */}
           {pictures.length > 0 && ( // Changed 'images' to 'pictures'
@@ -241,28 +241,28 @@ const ProductUpload = () => {
           <div className="mt-4 flex flex-col items-center border-2 border-solid border-gray-400 p-4">
             {productName && (
               <div className="mb-2 border-b-2">
-                <strong className="text-sm text-[#FCAB2E]">Name:</strong>
-                <p className="text-lg text-[#FCAB2E]">{productName}</p>
+                <strong className="text-sm text-text">Name:</strong>
+                <p className="text-lg text-text">{productName}</p>
               </div>
             )}
             {productDescription && (
               <div className="mb-2 flex flex-col items-center border-b-2">
-                <strong className="text-sm text-[#FCAB2E]">Description:</strong>
-                <p className="text-sm text-[#FCAB2E] ">{productDescription}</p>
+                <strong className="text-sm text-text">Description:</strong>
+                <p className="text-sm text-text ">{productDescription}</p>
               </div>
             )}
             {price && (
               <div className="mb-2 flex flex-col items-center border-b-2">
-                <strong className="text-sm text-[#FCAB2E]">Price:</strong>
-                <p className="text-lg font-semibold text-[#FCAB2E]">
+                <strong className="text-sm text-text">Price:</strong>
+                <p className="text-lg font-semibold text-text">
                   ${parseFloat(price).toFixed(2)}
                 </p>
               </div>
             )}
             {category && (
               <div className="mb-2 flex flex-col items-center border-b-2">
-                <strong className="text-sm text-[#FCAB2E]">Category:</strong>
-                <p className="text-sm text-[#FCAB2E]">{category}</p>
+                <strong className="text-sm text-text">Category:</strong>
+                <p className="text-sm text-text">{category}</p>
               </div>
             )}
           </div>
