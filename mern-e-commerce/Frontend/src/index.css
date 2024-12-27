@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --primary-color: #091057; 
+    --secondary-color: #024CAA;  
+    --button-color: #EC8305; 
+    --hover-color: #D67502; 
+    --text-color: #DBD3D3; 
+  }
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
